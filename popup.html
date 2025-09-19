@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 350px;
+      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      margin: 0;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .header p {
+      margin: 5px 0 0 0;
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .control-group {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      backdrop-filter: blur(10px);
+    }
+
+    .control-group h3 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .toggle {
+      position: relative;
+      width: 50px;
+      height: 24px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle.active {
+      background: #4CAF50;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+
+    .toggle.active .toggle-slider {
+      transform: translateX(26px);
+    }
+
+    .slider-container {
+      margin-bottom: 10px;
+    }
+
+    .slider-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+
+    .slider {
+      width: 100%;
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.3);
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .slider::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .range-inputs {
+      display: flex;
+      gap: 10px;
+      margin-top: 5px;
+    }
+
+    .range-input {
+      flex: 1;
+      padding: 4px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .range-input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .status {
+      text-align: center;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .status.enabled {
+      background: rgba(76, 175, 80, 0.3);
+    }
+
+    .status.disabled {
+      background: rgba(244, 67, 54, 0.3);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 10px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Human Typing Simulator</h1>
+    <p>Simulate realistic typing when pasting text</p>
+  </div>
+
+  <div class="control-group">
+    <div class="toggle-container">
+      <h3>Enable Extension</h3>
+      <div class="toggle" id="toggle">
+        <div class="toggle-slider"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <h3>Typing Speed (ms between keystrokes)</h3>
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Min: <span id="minSpeedValue">50</span>ms</span>
+        <span>Max: <span id="maxSpeedValue">150</span>ms</span>
+      </div>
+      <div class="range-inputs">
+        <input type="number" id="minSpeed" class="range-input" placeholder="Min" min="10" max="500">
+        <input type="number" id="maxSpeed" class="range-input" placeholder="Max" min="10" max="500">
+      </div>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <h3>Error Rate</h3>
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>0%</span>
+        <span id="errorRateValue">5%</span>
+        <span>20%</span>
+      </div>
+      <input type="range" id="errorRate" class="slider" min="0" max="20" value="5">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <h3>Correction Delay (ms)</h3>
+    <div class="slider-container">
+      <div class="slider-label">
+        <span>Min: <span id="minCorrectionValue">200</span>ms</span>
+        <span>Max: <span id="maxCorrectionValue">800</span>ms</span>
+      </div>
+      <div class="range-inputs">
+        <input type="number" id="minCorrection" class="range-input" placeholder="Min" min="50" max="2000">
+        <input type="number" id="maxCorrection" class="range-input" placeholder="Max" min="50" max="2000">
+      </div>
+    </div>
+  </div>
+
+  <div class="status" id="status">
+    Extension is disabled
+  </div>
+
+  <div class="footer">
+    <p>Reload the page after changing settings</p>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

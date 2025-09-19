@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Human Typing Simulator",
+  "version": "1.0",
+  "description": "Simulates human typing when pasting text, complete with realistic errors and corrections",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Human Typing Simulator"
+  }
+}

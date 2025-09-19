@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+</head>
+<body>
+    <h3>Click the buttons to generate and download icons:</h3>
+    <button onclick="createIcon(16)">Generate 16x16 Icon</button>
+    <button onclick="createIcon(48)">Generate 48x48 Icon</button>
+    <button onclick="createIcon(128)">Generate 128x128 Icon</button>
+    
+    <br><br>
+    <canvas id="preview" width="128" height="128" style="border: 1px solid #ccc;"></canvas>
+
+    <script>
+        function createIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background circle
+            const margin = Math.max(2, size / 8);
+            ctx.fillStyle = '#667eea';
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = Math.max(1, size / 64);
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size/2 - margin, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            
+            // Draw letter H
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${size * 0.6}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('H', size / 2, size / 2);
+            
+            // Show preview
+            const preview = document.getElementById('preview');
+            const previewCtx = preview.getContext('2d');
+            previewCtx.clearRect(0, 0, 128, 128);
+            previewCtx.drawImage(canvas, 0, 0, 128, 128);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = `icon${size}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>
